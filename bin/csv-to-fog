@@ -1,3 +1,6 @@
 #!/usr/bin/env ruby
 
-require 'csv/to/fog'
+$:.unshift(File.expand_path("../../lib", __FILE__))
+require 'csv-to-fog'
+
+CsvToFog::App.run(ARGV)
