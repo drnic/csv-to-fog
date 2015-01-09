@@ -1,10 +1,11 @@
 require "optparse"
+require "csv"
 
 class CsvToFog::App
   def self.run(args)
     key = nil
     unparsed_mappings = []
-    OptionParser.new do |opts|
+    args = OptionParser.new do |opts|
       opts.banner = "csv-to-fog {options} path/to/file.csv"
       opts.separator ""
       opts.separator "Options are ..."
@@ -25,7 +26,7 @@ class CsvToFog::App
 
     file_path = args.shift
     app = self.new(file_path, key, unparsed_mappings)
-    app.validate!
+    app.load_file_and_validate!
     app.run
   end
 
@@ -47,14 +48,32 @@ class CsvToFog::App
     end
   end
 
-  def validate!
+  def load_file_and_validate!
     errors = false
-    $stderr.puts "--key is required" unless @key
-    $stderr.puts "--map is required" if @mappings.size == 0
+    unless @key
+      $stderr.puts "--key is required"
+      errors = true
+    end
+    if @mappings.size == 0
+      $stderr.puts "--map is required"
+      errors = true
+    end
+    if !@file_path
+      $stderr.puts "Must pass path to CSV file"
+      errors = true
+    elsif !File.exists?(@file_path)
+      $stderr.puts "File #{@file_path} doesn't exist"
+      errors = true
+    end
     exit 1 if errors
+
+    @rows = []
+    CSV.foreach(@file_path, headers: true) do |row|
+      @rows << row
+    end
   end
 
   def run
-    p @key, @mappings
+    p @rows.first
   end
 end
