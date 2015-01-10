@@ -3,6 +3,8 @@ require "csv"
 require "yaml"
 
 class CsvToFog::App
+  attr_reader :fog_file
+
   def self.run(args)
     key = nil
     unparsed_mappings = []
@@ -29,6 +31,7 @@ class CsvToFog::App
     app = self.new(file_path, key, unparsed_mappings)
     app.load_file_and_validate!
     app.run
+    puts app.fog_file.to_yaml
   end
 
   def initialize(file_path, key, unparsed_mappings)
@@ -83,6 +86,5 @@ class CsvToFog::App
         credentials[fog.to_sym] = row[csv]
       end
     end
-    puts @fog_file.to_yaml
   end
 end
