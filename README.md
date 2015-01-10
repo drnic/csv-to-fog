@@ -28,6 +28,16 @@ Outputs:
   :aws_secret_access_key: STUDENT2SECRET
 ```
 
+By storing the output into a `yml` file, you can then load it into the `fog` CLI or a Ruby program that uses fog:
+
+```
+$ csv-to-fog --key "Student #" --map "aws_access_key_id:Master Key" --map "aws_secret_access_key:Master Secret" spec/fixtures/aws.csv > aws.yml
+
+$ fog -C aws.yml student1
+Welcome to fog interactive!
+  :student1 provides AWS
+```
+
 Requires
 --------
 
