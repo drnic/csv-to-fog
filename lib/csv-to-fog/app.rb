@@ -1,5 +1,6 @@
 require "optparse"
 require "csv"
+require "yaml"
 
 class CsvToFog::App
   def self.run(args)
@@ -74,6 +75,14 @@ class CsvToFog::App
   end
 
   def run
-    p @rows.first
+    @fog_file = {}
+    @rows.each do |row|
+      fog_key = row[@key].to_sym
+      credentials = @fog_file[fog_key] = {}
+      @mappings.each do |fog, csv|
+        credentials[fog] = row[csv]
+      end
+    end
+    puts @fog_file.to_yaml
   end
 end
