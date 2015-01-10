@@ -11,7 +11,13 @@ student1,training+student1@starkandwayne.com,PASSWORD1,STUDENT1KEY,STUDENT1SECRE
 student2,training+student2@starkandwayne.com,PASSWORD2,STUDENT2KEY,STUDENT2SECRET
 ```
 
-into
+Such as:
+
+```
+csv-to-fog --key "Student #" --map "aws_access_key_id:Master Key" --map "aws_secret_access_key:Master Secret" spec/fixtures/aws.csv
+```
+
+becomes
 
 ```yaml
 :student1:

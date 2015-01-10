@@ -80,7 +80,7 @@ class CsvToFog::App
       fog_key = row[@key].to_sym
       credentials = @fog_file[fog_key] = {}
       @mappings.each do |fog, csv|
-        credentials[fog] = row[csv]
+        credentials[fog.to_sym] = row[csv]
       end
     end
     puts @fog_file.to_yaml
