@@ -1,0 +1,10 @@
+language: ruby
+script: bundle exec rspec spec
+rvm:
+  - ruby-2.1.5
+notifications:
+  email:
+    recipients:
+      - drnicwilliams@gmail.com
+    on_success: change
+    on_failure: always
